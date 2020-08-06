@@ -36,6 +36,11 @@ gem 'simple_form'
 gem 'devise'
 #圖示
 gem 'font-awesome-rails'
+
+#可以上傳圖片 看縮圖
+gem 'carrierwave'
+
+  gem 'mini_magick'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
