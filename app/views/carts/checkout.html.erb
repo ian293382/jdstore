@@ -32,7 +32,7 @@
 
   <div class="total clearfix" >
     <span class="pull-right">
-      總計<%= rendercart_total_price(current_cart) %> NTW
+      總計<%= render_cart_total_price(current_cart) %> NTW
     </span>
   </div>
 
@@ -42,12 +42,12 @@
     訂單資訊
   </h2>
 
-  <div class="order-form">
+   <div class="order-form">
 
     <%= simple_form_for @order do |f| %>
 
 
-      <legend>訂購人 </lengend>
+      <legend>訂購人 </legend>
       <div class="form-group col-lg-6">
         <%= f.input :billing_name %>
       </div>
@@ -55,7 +55,7 @@
         <%= f.input :billing_address %>
       </div>
 
-      <leadend>收貨人</lengend>
+      <ledend>收貨人</legend>
       <div class="form-group col-lg-6">
         <%= f.input :shipping_name %>
       </div>
