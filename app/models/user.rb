@@ -8,4 +8,7 @@ class User < ApplicationRecord
          def admin?
            is_admin
          end
+
+  #訂單與使用者有關連
+  has_many :orders
 end
