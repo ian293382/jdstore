@@ -4,7 +4,8 @@ class Admin::ProductsController < ApplicationController
   layout "admin"
 
   def index
-    @products = Product.all
+    # => 做order才能對商品排序調換 DSC or ASC (降/升) 前台也要排序
+    @products = Product.all.order("position ASC")
   end
 
   def new
@@ -33,6 +34,22 @@ class Admin::ProductsController < ApplicationController
       render :new
     end
   end
+
+      def move_up
+        @product = Product.find(params[:id])
+
+        @product.move_higher
+        redirect_to :back
+
+      end
+
+
+      def move_down
+        @product = Product.find(params[:id])
+        @product.move_lower
+        redirect_to :back
+      end
+
 
   private
 
