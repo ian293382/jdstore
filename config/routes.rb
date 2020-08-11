@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   devise_for :users
   root 'products#index'
 
+  namespace :account do
+    resources :orders
+  end
 
      resources :cart_items
 
