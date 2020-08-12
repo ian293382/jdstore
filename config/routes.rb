@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
 
   namespace :admin do
-      resources :orders
+
       resources :products do
 
         member do
           patch :move_up
           patch :move_down
         end
+      end
+        resources :orders do
+          member do
+            post :cancel
+            post :ship
+            post :shipped
+            post :return
+          end
 
       end
     end
