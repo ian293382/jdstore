@@ -58,7 +58,7 @@ group :development, :test do
   gem 'pry'
   gem 'awesome_rails_console'
 
-
+gem 'letter_opener', group: :development
 end
 
 group :development do
