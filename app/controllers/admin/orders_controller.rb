@@ -4,7 +4,7 @@ class Admin::OrdersController < ApplicationController
   before_action :authenticate_user!
   before_action :admin_required
     def index
-      @order = Order.order("id DESC")
+      @orders = Order.order("id DESC")
     end
 
 
@@ -31,5 +31,18 @@ class Admin::OrdersController < ApplicationController
       @order.return_good!
       redirect_to :back
     end
+
+    def show
+      @order = Order.find(params[:id])
+      @product_lists = @order.product_lists
+    end
+
+    def apply_to_cancel
+      @order = Order.find_by_token(params[:id])
+      OrderMailer.apply_cancel(@order).deliver!
+      flash[:notice] = "已提交申請"
+      redirect_to :back
+    end
+    
 
 end
