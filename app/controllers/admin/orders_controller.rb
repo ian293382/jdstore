@@ -12,6 +12,7 @@ class Admin::OrdersController < ApplicationController
       @order = Order.find(params[:id])
       @order.ship!
       redirect_to :back
+      OrderMailer.notify_ship(@order).deliver!
     end
 
     def shipped
@@ -24,6 +25,7 @@ class Admin::OrdersController < ApplicationController
       @order = Order.find(params[:id])
       @order.cancel_order!
       redirect_to :back
+      OrderMailer.notify_ship(@order).deliver!
     end
 
     def return
@@ -37,12 +39,6 @@ class Admin::OrdersController < ApplicationController
       @product_lists = @order.product_lists
     end
 
-    def apply_to_cancel
-      @order = Order.find_by_token(params[:id])
-      OrderMailer.apply_cancel(@order).deliver!
-      flash[:notice] = "已提交申請"
-      redirect_to :back
-    end
-    
+
 
 end
