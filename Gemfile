@@ -49,7 +49,8 @@ gem 'letter_opener', group: :development
 
 gem 'aasm'
 
-
+#使用figaro
+gem 'figaro'
 
 
 group :development, :test do
