@@ -50,6 +50,13 @@ class Admin::ProductsController < ApplicationController
         redirect_to :back
       end
 
+      def destroy
+        @product = Product.find(params[:id])
+        @product.destroy
+        flash[:alert] = "你已經成功刪除"
+        redirect_to admin_products_path
+      end
+
 
   private
 
