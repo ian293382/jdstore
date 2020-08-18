@@ -49,7 +49,8 @@ gem 'letter_opener', group: :development
 
 gem 'aasm'
 
-
+#搜尋系統
+gem 'ransack'
 
 
 group :development, :test do

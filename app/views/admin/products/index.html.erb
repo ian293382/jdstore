@@ -39,7 +39,7 @@
           <%= link_to("Edit", edit_admin_product_path(product), :class => "btn btn-primary ") %>
           </p>
           <p>
-          <%= link_to("Delete", admin_products_path(product), :method => :delete, :class => "btn btn-primary") %>
+          <%= link_to("Delete", admin_product_path(product), :method => :DELETE, :class => "btn btn-primary" , :data => 'Are you sure?') %>
           </p>
           <%= link_to("向上",move_up_admin_product_path(product), method: :patch)%> |
           <%= link_to("向下",move_down_admin_product_path(product), method: :patch)%>

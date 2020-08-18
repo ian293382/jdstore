@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-
-  namespace :admin do
+  devise_for :users
+  root 'products#index'
+#admin
+    namespace :admin do
 
       resources :products do
 
@@ -9,6 +11,8 @@ Rails.application.routes.draw do
           patch :move_down
         end
       end
+
+
         resources :orders do
           member do
             post :cancel
@@ -19,23 +23,25 @@ Rails.application.routes.draw do
 
       end
     end
-
+#admin part
     resources :products do
+      collection do
+        get :search
+      end
         member do
           post :add_to_cart
         end
-      end
-
+    end
+# products
       resources :carts do
            collection do
              delete :clean
              post :checkout
            end
          end
+# carts
 
-  devise_for :users
-  root 'products#index'
-
+#account
   namespace :account do
     resources :orders
   end
@@ -49,5 +55,8 @@ Rails.application.routes.draw do
           post :apply_to_cancel
         end
      end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :owner do
+    resources :news
+  end
 end
