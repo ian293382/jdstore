@@ -1,7 +1,9 @@
 class Owner::NewsController < ApplicationController
   before_action :authenticate_user!
+
+  layout 'admin'
   def index
-    @newss = News.all
+    @newses = News.all
   end
 
   def new
@@ -16,14 +18,12 @@ class Owner::NewsController < ApplicationController
     @news = News.find(params[:id])
   end
 
-  def edit
-    @news = News.find(params[:id])
-  end
 
+    #當 news.all and news.new 衝突改動方式  owner_news_index_path
   def create
     @news = News.new(news_params)
     if @news.save
-      redirect_to owner_newss_path
+      redirect_to owner_news_index_path
     else
       render :new
     end
@@ -33,7 +33,7 @@ class Owner::NewsController < ApplicationController
     @news = News.find(params[:id])
 
     if @news = News.update(news_params)
-      redirect_to owner_newss_path
+      redirect_to owner_news_index_path
     else
       render :new
     end
@@ -44,7 +44,7 @@ class Owner::NewsController < ApplicationController
 
     @news.destroy
 
-    redirect_to owner_newss_path
+    redirect_to owner_news_index_path
 
   end
 

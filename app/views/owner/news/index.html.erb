@@ -1,1 +1,38 @@
-<h1> text </h1>
+<h2> News List </h2>
+<div class="pull-right" style="padding-bottom: 20px;">
+  <%= link_to("新增訊息", new_owner_news_path, class: "btn btn-primary btn-sm") %>
+
+
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th> Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @newses.each do |news| %>
+      <tr>
+        <td>
+          <%= news.created_at.to_s(:short)%>
+        </td>
+        <td>
+          <%= news.title %>
+        </td>
+        <td>
+          <%= news.description %>
+        </td>
+        <td>
+
+          <%= link_to("Edit", edit_owner_news_path(news), :class => "btn btn-primary ") %>
+
+          <%= link_to("Delete", owner_news_path(news), :method => :DELETE, :class => "btn btn-primary" , :data => 'Are you sure?') %>
+          
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
