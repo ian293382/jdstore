@@ -49,8 +49,12 @@ gem 'letter_opener', group: :development
 
 gem 'aasm'
 
+<<<<<<< HEAD
 #搜尋系統
 gem 'ransack'
+=======
+gem 'zopim_rails'
+>>>>>>> intercom-rails
 
 
 group :development, :test do
