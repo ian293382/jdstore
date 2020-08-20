@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user! ,only: [:favorite]
 
   def index
     @products = Product.all.order("position ASC")
@@ -19,6 +20,24 @@ class ProductsController < ApplicationController
      redirect_to :back
   end
 
+<<<<<<< HEAD
+=======
+  def add_to_favorite
+    @product = Product.find(params[:id])
+    if !current_user.is_member_of?(@product)
+      current_user.add_favorite!(@product)
+    end
+      redirect_to :back
+    end
+
+    def remove_to_favorite
+      @product = Product.find(params[:id])
+      if current_user.is_member_of?(@product)
+        current_user.remove_favorite!(@product)
+      end
+        redirect_to :back
+    end
+>>>>>>> collection
 
 
 end

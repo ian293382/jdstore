@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       end
         member do
           post :add_to_cart
+          post :add_to_favorite
+          post :remove_to_favorite
         end
     end
 # products
@@ -55,10 +57,16 @@ Rails.application.routes.draw do
           post :apply_to_cancel
         end
      end
+<<<<<<< HEAD
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :news
 
   namespace :owner do
     resources :news
   end
+=======
+#favorites part
+     resources :favorites
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+>>>>>>> collection
 end

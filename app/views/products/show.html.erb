@@ -22,5 +22,18 @@
        貨物銷售一空，無法購買
       <% end %>
     </div>
+<!--喜愛 -->
+      <div>
+         <% if current_user && current_user.is_member_of?(@product) %>
+           <%= link_to remove_to_favorite_product_path(@product), method: :post, class: "btn  btn-primary" do %>
+             <span class="fa fa-heart"></span> 已收藏
+           <% end %>
+         <% else %>
+           <%= link_to add_to_favorite_product_path(@product), method: :post, class: "btn  btn-default" do %>
+             <span class="fa fa-heart-o"></span> 收藏
+           <% end %>
+          <% end %>
+       </div>
+
   </div>
 </div>
