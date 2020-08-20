@@ -11,10 +11,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20200818012618) do
 =======
 ActiveRecord::Schema.define(version: 20200819053309) do
 >>>>>>> collection
+=======
+ActiveRecord::Schema.define(version: 20200820064245) do
+>>>>>>> category
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "cart_id"
@@ -30,6 +34,7 @@ ActiveRecord::Schema.define(version: 20200819053309) do
   end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   create_table "favorites", force: :cascade do |t|
     t.integer  "user_id"
@@ -44,6 +49,17 @@ ActiveRecord::Schema.define(version: 20200819053309) do
     t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+=======
+  create_table "categories", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "weight",           default: 0
+    t.integer  "products_counter", default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "ancestry"
+    t.index ["ancestry"], name: "index_categories_on_ancestry"
+    t.index ["title"], name: "index_categories_on_title"
+>>>>>>> category
   end
 
   create_table "orders", force: :cascade do |t|
@@ -76,10 +92,18 @@ ActiveRecord::Schema.define(version: 20200819053309) do
     t.text     "description"
     t.integer  "quantity"
     t.integer  "price"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.string   "image"
     t.integer  "position"
+    t.integer  "category_id"
+    t.string   "catatus",                              default: "off"
+    t.string   "uuid"
+    t.decimal  "msrp",        precision: 10, scale: 2
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["title"], name: "index_products_on_title"
+    t.index ["uuid"], name: "index_products_on_uuid", unique: true
+    t.index [nil, nil], name: "index_products_on_status_and_catagory_id"
   end
 
   create_table "users", force: :cascade do |t|
