@@ -49,7 +49,7 @@ gem 'letter_opener', group: :development
 
 gem 'aasm'
 
-
+gem 'zopim_rails'
 
 
 group :development, :test do
