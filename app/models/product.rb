@@ -3,4 +3,13 @@ class Product < ApplicationRecord
   mount_uploader :image, ImageUploader
   #後台排序
   acts_as_list
+
+  before_create :set_default_attrs #產品生產之前建造單一序號
+
+  private
+
+   def set_default_attrs
+     self.uuid = RandomCode.generate_product_uuid
+   end
+
 end
