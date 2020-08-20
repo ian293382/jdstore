@@ -49,7 +49,7 @@ gem 'letter_opener', group: :development
 
 gem 'aasm'
 
-
+gem 'ancestry'#樹狀結構分類
 
 
 group :development, :test do
