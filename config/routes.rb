@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get 'categories/index'
+  end
+
+  namespace :admin do
+    get 'categories/new'
+  end
+
   devise_for :users
   root 'products#index'
 #admin
     namespace :admin do
-
+      root 'sessions#new'
       resources :products do
 
         member do
@@ -11,8 +19,9 @@ Rails.application.routes.draw do
           patch :move_down
         end
       end
-
-
+#categories 分類
+      resources :categories
+#order排列
         resources :orders do
           member do
             post :cancel

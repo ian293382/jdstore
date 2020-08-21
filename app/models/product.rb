@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   #後台排序
   acts_as_list
 
+
   has_many :favorites
   has_many :member, through: :favorites, source: :user
 
@@ -14,5 +15,6 @@ class Product < ApplicationRecord
    def set_default_attrs
      self.uuid = RandomCode.generate_product_uuid
    end
+
 
 end
