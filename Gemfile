@@ -57,6 +57,9 @@ gem 'zopim_rails'
 
 gem 'ancestry'#樹狀結構分類
 
+#分頁建立
+gem 'will_paginate'
+
 
 
 group :development, :test do
