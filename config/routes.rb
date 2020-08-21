@@ -11,8 +11,9 @@ Rails.application.routes.draw do
           patch :move_down
         end
       end
-
-
+#categories 分類
+      resources :categories
+#order排列
         resources :orders do
           member do
             post :cancel
