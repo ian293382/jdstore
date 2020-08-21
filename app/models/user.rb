@@ -14,20 +14,20 @@ class User < ApplicationRecord
 
   #favorite
 
-  has_many :favorites
-  has_many :favorite_products, through: :favorites, source: :product
+has_many :favorites
+has_many :favorite_products, through: :favorites, source: :product
 
-  # 判別是否收藏
-  def is_member_of?(product)
-    favorite_products.include?(product)
-  end
+      # 判別是否收藏
+      def is_member_of?(product)
+        favorite_products.include?(product)
+      end
 
-  def add_favorite!(product)
-    favorite_products << product
-  end
+      def add_favorite!(product)
+        favorite_products << product
+      end
 
-  def remove_favorite!(product)
-    favorite_products.delete(product)
-  end
+      def remove_favorite!(product)
+        favorite_products.delete(product)
+      end
 
 end
