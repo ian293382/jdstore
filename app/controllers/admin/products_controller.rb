@@ -1,7 +1,5 @@
-class Admin::ProductsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :admin_required
-  layout "admin"
+class Admin::ProductsController < Admin::BaseController
+
 
   def index
     # => 做order才能對商品排序調換 DSC or ASC (降/升) 前台也要排序

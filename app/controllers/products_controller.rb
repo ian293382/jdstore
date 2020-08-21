@@ -20,8 +20,7 @@ class ProductsController < ApplicationController
      redirect_to :back
   end
 
-<<<<<<< HEAD
-=======
+
   def add_to_favorite
     @product = Product.find(params[:id])
     if !current_user.is_member_of?(@product)
@@ -37,7 +36,7 @@ class ProductsController < ApplicationController
       end
         redirect_to :back
     end
->>>>>>> collection
+
 
 
 end
