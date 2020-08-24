@@ -39,7 +39,7 @@ gem 'font-awesome-rails'
 
 #可以上傳圖片 看縮圖
 gem 'carrierwave'
-#使用 papaerclip 多圖上傳 是否已安装ImageMagick 在終端機 which convert
+#使用 paperclip 多圖上傳 是否已安装ImageMagick 在終端機 which convert
 gem 'paperclip'
 
   gem 'mini_magick'

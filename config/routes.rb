@@ -13,12 +13,14 @@ Rails.application.routes.draw do
     namespace :admin do
       root 'sessions#new'
       resources :sessions
+      #categories 分類
+      resources :categories
         resources :products do
         #product_image (improve  web's_effect)
           resources :product_images, only: [:index, :create, :destroy, :update]
 
         end
-    
+
         resources :products do
         #member
         member do
@@ -26,8 +28,7 @@ Rails.application.routes.draw do
             patch :move_down
         end
       end
-#categories 分類
-      resources :categories
+
 #order排列
         resources :orders do
           member do
@@ -36,7 +37,6 @@ Rails.application.routes.draw do
             post :shipped
             post :return
         end
-
       end
     end
 #admin part end

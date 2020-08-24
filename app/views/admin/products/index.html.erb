@@ -1,15 +1,24 @@
-<h2> Product List </h2>
-<div class="pull-right" style="padding-bottom: 20px;">
-  <%= link_to("新增產品", new_admin_product_path, class: "btn btn-primary btn-sm") %>
+<div>
 
+  <div class="pull-right" >
+    <%= link_to "新建商品", new_admin_product_path, class: "btn btn-primary" %>
 </div>
+
+  <h2>
+    Product List(<%= @products.total_entries %>)
+  </h2>
+
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>#</th>
+      <th>ID</th>
       <th width="220">Product Pic</th>
       <th>Name</th>
+      <th>UUid</th>
+      <th>Origin_price</th>
       <th>Price</th>
+      <th>Quantity</th>
+      <th>status</th>
       <th width="100"> Options</th>
     </tr>
   </thead>
@@ -32,23 +41,40 @@
           <%= product.title %>
         </td>
         <td>
+          <%= product.uuid %>
+        </td>
+        <td>
+          <%= product.msrp %>
+        </td>
+        <td>
           <%= product.price %>
         </td>
         <td>
+          <%= product.quantity%>
+        </td>
+        <td>
+          <%= product.status %>
+        </td>
+        <td align="center">
           <p>
           <%= link_to("Edit", edit_admin_product_path(product), :class => "btn btn-primary ") %>
           </p>
           <p>
-          <%= link_to("Delete", admin_product_path(product), method: :delete, :class => "btn btn-primary") %>
+          <%= link_to("Delete", admin_product_path(product), method: :delete, :class => "btn btn-danger") %>
+          </p>
+          <p>
+          <%= link_to "Photo options", admin_product_product_images_path(product_id: product) , :class => "btn btn-info" %>
           </p>
           <p>
           <%= link_to("向上",move_up_admin_product_path(product), method: :patch)%> |
           <%= link_to("向下",move_down_admin_product_path(product), method: :patch)%>
-        </td>
-        <td align="right">
-          <%= link_to "Photo options", admin_product_product_images_path(product_id: product) %>
+          </p>
+
+
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @products %>
+</div>

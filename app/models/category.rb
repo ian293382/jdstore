@@ -6,7 +6,9 @@ class Category < ApplicationRecord
 
   has_ancestry orphan_strategy: :destroy
 
-  has_many :products, dependent: :destroy
+
+  has_ancestry
+   has_many :products, dependent: :destroy
 
   private
 

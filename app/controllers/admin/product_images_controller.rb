@@ -2,11 +2,13 @@ class Admin::ProductImagesController < ApplicationController
   before_action :find_product
 
   def index
-    @product_image = @product.product_images
+    @product_images = @product.product_images
   end
 
+
+
   def create
-    prarms[:images].each do |image|
+    params[:images].each do |image|
       @product.product_images << ProductImage.new(image: image)
     end
 
@@ -39,8 +41,9 @@ class Admin::ProductImagesController < ApplicationController
    end
 
   private
-     def find_product
-       @product = Product.find params[:product_id]
-     end
+
+  def find_product
+      @product = Product.find params[:product_id]
+    end
 
 end

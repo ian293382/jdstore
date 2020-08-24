@@ -98,13 +98,13 @@ ActiveRecord::Schema.define(version: 20200824052831) do
     t.string   "image"
     t.integer  "position"
     t.integer  "category_id"
-    t.string   "catatus",                              default: "off"
+    t.string   "status",                               default: "off"
     t.string   "uuid"
     t.decimal  "msrp",        precision: 10, scale: 2
     t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["status", nil], name: "index_products_on_status_and_catagory_id"
     t.index ["title"], name: "index_products_on_title"
     t.index ["uuid"], name: "index_products_on_uuid", unique: true
-    t.index [nil, nil], name: "index_products_on_status_and_catagory_id"
   end
 
   create_table "users", force: :cascade do |t|

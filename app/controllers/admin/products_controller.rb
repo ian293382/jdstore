@@ -1,37 +1,51 @@
 class Admin::ProductsController < Admin::BaseController
 
+  before_action :find_product, only: [:edit, :update, :destroy]
 
   def index
     # => 做order才能對商品排序調換 DSC or ASC (降/升) 前台也要排序
-    @products = Product.all.order("position ASC")
+    @products = Product.page(params[:page] || 1).per_page(params[:per_page] || 10).order("position ASC")
   end
 
   def new
-    @product = Product.new
-  end
+   @product = Product.new
+   @root_categories = Category.roots
+ end
 
-  def edit
-     @product = Product.find(params[:id])
+ def create
+   @product = Product.new(params.require(:product).permit!)
+   @root_categories = Category.roots
+
+   if @product.save
+     flash[:notice] = "创建成功"
+     redirect_to admin_products_path
+   else
+     render action: :new
    end
+ end
 
-   def update
-     @product = Product.find(params[:id])
+ def edit
+   @root_categories = Category.roots
+   render action: :new
+ end
 
-     if @product.update(product_params)
-       redirect_to admin_products_path
-     else
-       render :edit
-     end
+ def update
+   @product.attributes = params.require(:product).permit!
+   @root_categories = Category.roots
+   if @product.save
+     flash[:notice] = "修改成功"
+     redirect_to admin_products_path
+   else
+     render action: :new
    end
-  def create
-    @product = Product.new(product_params)
+ end
 
-    if @product.save
-      redirect_to admin_products_path
-    else
-      render :new
-    end
-  end
+ def destroy
+   @product = Product.find(params[:id])
+   @product.destroy
+   flash[:alert] = "你已經成功刪除"
+   redirect_to admin_products_path
+ end
 
       def move_up
         @product = Product.find(params[:id])
@@ -48,17 +62,16 @@ class Admin::ProductsController < Admin::BaseController
         redirect_to :back
       end
 
-      def destroy
-        @product = Product.find(params[:id])
-        @product.destroy
-        flash[:alert] = "你已經成功刪除"
-        redirect_to admin_products_path
-      end
+
 
 
   private
 
-  def product_params
-    params.require(:product).permit(:title, :description, :quantity, :price, :image)
-  end
+    def find_product
+     @product = Product.find(params[:id])
+    end
+
+    def product_params
+      params.require(:product).permit(:title, :description, :status, :quantity, :price, :category_id,  :msrp, :image, :uuid )
+    end
 end
