@@ -4,9 +4,11 @@ class Product < ApplicationRecord
   #後台排序
   acts_as_list
 
-
+#收藏
   has_many :favorites
   has_many :member, through: :favorites, source: :user
+#Product_image
+  has_many :product_images, -> { order(weight: 'desc') }, dependent: :destroy
 
   before_create :set_default_attrs #產品生產之前建造單一序號
 

@@ -1,3 +1,13 @@
 // Place all the styles related to the products controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+// 圖片上傳區塊樣式
+input[type="file"] {
+ &.image-input {
+   display: inline-block;
+   border: 1px solid #ccc;
+
+   padding: 5px 20px;
+   border-radius: 4px
+ }
+}

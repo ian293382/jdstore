@@ -12,11 +12,18 @@ Rails.application.routes.draw do
 #admin
     namespace :admin do
       root 'sessions#new'
-      resources :products do
+      resources :sessions
+        resources :products do
+        #product_image (improve  web's_effect)
+          resources :product_images, only: [:index, :create, :destroy, :update]
 
+        end
+    
+        resources :products do
+        #member
         member do
-          patch :move_up
-          patch :move_down
+            patch :move_up
+            patch :move_down
         end
       end
 #categories 分類
@@ -28,11 +35,15 @@ Rails.application.routes.draw do
             post :ship
             post :shipped
             post :return
-          end
+        end
 
       end
     end
-#admin part
+#admin part end
+
+
+
+
     resources :products do
       collection do
         get :search
