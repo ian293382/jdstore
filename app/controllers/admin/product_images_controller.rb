@@ -2,6 +2,7 @@ class Admin::ProductImagesController < ApplicationController
   before_action :find_product
 
   def index
+    @product = Product.find params[:product_id]
     @product_images = @product.product_images
   end
 
@@ -17,13 +18,13 @@ class Admin::ProductImagesController < ApplicationController
 
   def destroy
     @product_image = @product.product_images.find(params[:id])
-    if @product_image.destroy
+     if @product_image.destroy
       flash[:notice] = "刪除成功"
     else
       flash[:notice] = "刪除失敗"
     end
 
-    redirect_tp :back
+    redirect_to :back
   end
 
   def update

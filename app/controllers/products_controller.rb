@@ -1,7 +1,8 @@
 class ProductsController < ApplicationController
 
   def index
-    @products = Product.all.order("position ASC")
+    @products = Product.onshelf.page(params[:page] || 1).per_page(params[:page] || 10)
+    .order("position ASC").includes(:main_product_image)
   end
 
   def show

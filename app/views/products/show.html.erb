@@ -1,40 +1,86 @@
 <div class="row">
-  <div class="col-md-6">
-    <% if @product.image.present? %>
-      <%= image_tag(@product.image.medium.url, class: "thumbnail") %>
-    <% else %>
-      <%= image_tag("http://placehold.it/400x400&text=No Pic", class: "thumbnail") %>
-    <% end %>
+  <div class="col-lg-3">
+    <%= render 'common/categories' %>
   </div>
-  <div class="col-md-6">
-    <h2> <%= @product.title %> </h2>
-    <div style="height:100px;">
-      <p>
-        <%= @product.description %>
-      </p>
-    </div>
-    <div> 数量 : <%= @product.quantity %> </div>
-    <div class="product-price"> $ <%= @product.price %> </div>
-    <div class="pull-right">
-      <% if @product.quantity > 0 %>
-        <%= link_to("加入購物車", add_to_cart_product_path(@product), :method => :post, :class => "btn btn-primary btn-lg btn-danger") %>
-      <% else %>
-       貨物銷售一空，無法購買
+  <div class="col-lg-9">
+    <ol class="breadcrumb">
+      <li><a href="<%= root_path %>">所有商品</a></li>
+      <li class="active"><%= @product.category.parent.title %></li>
+      <li><a href="<%= category_path @product.category %>"><%= @product.category.title %></a></li>
+      <li class="active"><%= @product.title %></li>
+    </ol>
+
+    <div class="preview col-md-7 " style="">
+      <% @product.product_images.each do |product_image| %>
+        <div class="col-xs-6 col-md-6">
+          <a href="#" class="thumbnail detail">
+            <%= image_tag product_image.image.url %>
+          </a>
+        </div>
       <% end %>
     </div>
-    <!--喜愛 -->
-      <div>
-         <% if current_user && current_user.is_member_of?(@product) %>
-           <%= link_to remove_to_favorite_product_path(@product), method: :post, class: "btn  btn-primary" do %>
-             <span class="fa fa-heart"></span> 已收藏
-           <% end %>
+
+    <div class="preview col-md-5 " style="">
+      <h1><%= @product.title %></h1>
+      <ul class="list-unstyled">
+        <li>商品編號: <%= @product.uuid %></li>
+        <li>庫存: <%= @product.quantity %></li>
+      </ul>
+      <h4><span class="msrp">原價: ¥<%= @product.msrp %></span></h4>
+      <h3><strong>現價: ¥<%= @product.price %></strong> </h3>
+      <p>購買: <input type="text" name="quantity" value="1" />件</p>
+
+      <div class="pull-right">
+         <% if @product.quantity.present? && @product.quantity > 0 %>
+            <%= link_to("加入購物車", add_to_cart_product_path(@product), method: :post,
+                        class: "btn btn-lg btn-danger") %>
          <% else %>
-           <%= link_to add_to_favorite_product_path(@product), method: :post, class: "btn  btn-default" do %>
-             <span class="fa fa-heart-o"></span> 收藏
+           已銷售一空，無法購買
+         <% end %>
+      </div>
+
+    </div>
+    <br />
+    <br />
+    <ul class="nav nav-tabs">
+      <li role="presentation" class="active">
+        <a href="#tab_default_1" data-toggle="tab">商品詳情</a>
+      </li>
+      <li>
+        <a href="#tab_default_2" data-toggle="tab">商品評價(<%= "0" %>) </a>
+      </li>
+    </ul>
+
+    <br />
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="tab_default_1">
+         <p class="product-description"><%= @product.description.html_safe %></p>
+         <p class="product-description2 text-center">產品展示</p>
+         <div class="row">
+
+
+
+        <% @product.product_images.each do |product_image| %>
+             <div class="col-md-2 col-sm-4 col-xs-6 image-box">
+                 <%= image_tag product_image.image.url %>
+             </div>
            <% end %>
-          <% end %>
-       </div>
-
-
+         </div>
+         <div class="faq">
+           <p class="faq-title text-center">常見問題</p>
+           <p class="question">能快遞哪些範圍？</p>
+           <p class="answer">只有台灣地區唷啾咪</p>
+           <p class="question">如何申請退貨？</p>
+           <p class="answer">
+             1.自收到商品之日起7日内，顧客可申請禮貌性退貨，預計1-5工作日到帳；<br />
+             2.退貨流程：<br />
+             確認收穫-申请退貨-客服審核通過-用戶寄回商品-倉庫簽收驗貨-退款審核-退款完成；<br />
+           </p>
+           <p class="question">如何開具發票？</p>
+           <p class="answer">如需開具普通發票，請在下單時聯繫客服，我們將快遞貨物一併交給您；</p>
+         </div>
+      </div>
+    </div>
   </div>
 </div>

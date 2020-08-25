@@ -19,9 +19,7 @@ Rails.application.routes.draw do
         #product_image (improve  web's_effect)
           resources :product_images, only: [:index, :create, :destroy, :update]
 
-        end
 
-        resources :products do
         #member
         member do
             patch :move_up
@@ -88,5 +86,6 @@ Rails.application.routes.draw do
 #favorites part
      resources :favorites
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
+#categories show
+  resources :categories, only: [:show]
 end

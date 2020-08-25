@@ -3,16 +3,25 @@ class ApplicationController < ActionController::Base
 
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+
   def admin_required
     if !current_user.admin?
       redirect_to "/", alert: "You are not admin."
     end
   end
-
+#購物車系統
   helper_method :current_cart
 
    def current_cart
      @current_cart ||= find_cart
+   end
+
+
+
+  before_action :fetch_home_data #查詢 增加”分類” 數據庫數量
+
+   def fetch_home_data
+     @categories = Category.grouped_data
    end
 
    private

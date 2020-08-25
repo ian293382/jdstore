@@ -1,0 +1,18 @@
+<% @products.each do |product| %>
+  <div class="col-xs-6 col-md-3 text-center product-list-stykle">
+    <div>
+
+        <% if product.product_images.present? %>
+        <a  href="<%= product_path(product) %>"> <img src=<%= image_tag(product.product_images[0].image.other.url)%>></a>
+
+        <% else %>
+            <%= link_to image_tag("http://placehold.it/200x200&text=No Pic", class: "product-list-style-img img-responsive center-block"), product_path(product), target: "_blank" %>
+        <% end %>
+    </div>
+
+        <br>
+        <%= link_to(product.title, product_path(product), target: "_blank") %>
+        <br>
+        <p><strong>￥ <%= link_to(product.price, product_path(product), target: "_blank") %> 元</strong></p>
+      </div>
+<% end %>

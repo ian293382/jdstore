@@ -28,7 +28,11 @@ validates :msrp, numericality: { message: "MSRP Must be numericality" },
   has_many :favorites
   has_many :member, through: :favorites, source: :user
 #Product_image
-  has_many :product_images, -> { order(weight: 'desc') }, dependent: :destroy
+  has_many :product_images, -> { order(weight: 'desc') },
+  dependent: :destroy
+  has_one :main_product_image, -> { order(weight: 'desc') },
+  class_name: :ProductImage
+
 
   before_create :set_default_attrs #產品生產之前建造單一序號
 
@@ -38,6 +42,9 @@ validates :msrp, numericality: { message: "MSRP Must be numericality" },
    On = 'on'
    Off = 'off'
   end
+
+#替代語言 scope
+  scope :onshelf, -> { where(status: Status::On) }
 
   private
 

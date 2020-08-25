@@ -10,6 +10,20 @@ class Category < ApplicationRecord
   has_ancestry
    has_many :products, dependent: :destroy
 
+
+#保證在多個頁面取得分類 def category
+
+  def self.grouped_data
+    self.roots.order("weight desc").inject([]) do |result,  parent|
+      row = []
+      row << parent
+      row << parent.children.order("weight desc")
+      result << row
+    end
+  end
+
+
+
   private
 
   def correct_ancestry
