@@ -31,7 +31,7 @@
         <td>
           <%= link_to product_path(product) do %>
             <% if product.product_images.present? %>
-            <%= image_tag(product.main_product_image.image.url, class: 'main-image thumbnail') %>
+            <%= image_tag(product.main_product_image.image.url(:middle), class: 'main-imagel') %>
 
             <% else %>
               <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "thumbnail") %>

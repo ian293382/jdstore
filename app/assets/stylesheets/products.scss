@@ -27,4 +27,14 @@ input[type="file"] {
      color: #333;
 
    }
+
  }
+ .thumbnail-samll {
+   height: 200px; // 圖案高度
+   &.detail {
+     height: 200px;
+   }
+   a.title {
+     color: #333;
+}
+   }
