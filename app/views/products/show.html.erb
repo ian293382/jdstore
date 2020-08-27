@@ -12,9 +12,9 @@
 
     <div class="preview col-md-7 " style="">
       <% @product.product_images.each do |product_image| %>
-        <div class="col-xs-6 col-md-6">
+        <div class="col-md-5 col-sm-5 col-xs-3">
           <a href="#" class="thumbnail detail">
-            <%= image_tag product_image.image.url %>
+            <%= image_tag(product_image.image.url, class: 'list-image thumbnail') %>
           </a>
         </div>
       <% end %>
@@ -61,11 +61,11 @@
 
 
 
-        <% @product.product_images.each do |product_image| %>
-             <div class="col-md-2 col-sm-4 col-xs-6 image-box">
-                 <%= image_tag product_image.image.url %>
+
+             <div class="col-md-10">
+                 <%= image_tag(@product.product_images[1].image.url ,class: 'main-image thumbnail')%>
              </div>
-           <% end %>
+
          </div>
          <div class="faq">
            <p class="faq-title text-center">常見問題</p>
