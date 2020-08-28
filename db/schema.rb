@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200824052831) do
+ActiveRecord::Schema.define(version: 20200828074953) do
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "cart_id"
@@ -27,13 +27,29 @@ ActiveRecord::Schema.define(version: 20200824052831) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "title"
-    t.integer  "weight",           default: 0
-    t.integer  "products_counter", default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.integer  "weight",            default: 0
+    t.integer  "category_group_id"
+    t.string   "name"
+    t.integer  "products_counter",  default: 0
+    t.string   "logo"
+    t.text     "description"
+    t.boolean  "is_hidden",         default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "ancestry"
     t.index ["ancestry"], name: "index_categories_on_ancestry"
-    t.index ["title"], name: "index_categories_on_title"
+    t.index ["title", "name"], name: "index_categories_on_title_and_name"
+  end
+
+  create_table "category_groups", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "is_hidden",   default: false
+    t.string   "image"
+    t.string   "logo"
+    t.string   "description"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index [nil], name: "index_category_groups_on_neme"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -68,13 +84,13 @@ ActiveRecord::Schema.define(version: 20200824052831) do
 
   create_table "product_images", force: :cascade do |t|
     t.integer  "product_id"
-    t.integer  "weight"
+    t.integer  "weight",             default: 0
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.bigint   "image_file_size"
     t.datetime "image_updated_at"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.index ["product_id", "weight"], name: "index_product_images_on_product_id_and_weight"
     t.index ["product_id"], name: "index_product_images_on_product_id"
   end
@@ -102,7 +118,7 @@ ActiveRecord::Schema.define(version: 20200824052831) do
     t.string   "uuid"
     t.decimal  "msrp",        precision: 10, scale: 2
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["status", nil], name: "index_products_on_status_and_catagory_id"
+    t.index ["status", "category_id"], name: "index_products_on_status_and_category_id"
     t.index ["title"], name: "index_products_on_title"
     t.index ["uuid"], name: "index_products_on_uuid", unique: true
   end

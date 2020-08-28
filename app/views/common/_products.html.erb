@@ -1,18 +1,15 @@
-<% @products.each do |product| %>
-  <div class="col-xs-6 col-md-3 text-center product-list-stykle">
-    <div>
+<div class="row">
+   <% @products.each do |product| %>
+     <div class="col-sm-6 col-md-4">
+       <div class="thumbnail">
+         <%= link_to image_tag(product.main_product_image.image.url(:middle), alt: product.title), product_path(product) %>
+         <div class="caption">
+           <h4><%= link_to product.title, product_path(product), class: 'title' %></h4>
 
-        <% if product.product_images.present? %>
-        <a  href="<%= product_path(product) %>"> <img src=<%= image_tag(product.product_images[0].image.other.url)%>></a>
+         </div>
+       </div>
+     </div>
+   <% end -%>
+ </div>
 
-        <% else %>
-            <%= link_to image_tag("http://placehold.it/200x200&text=No Pic", class: "product-list-style-img img-responsive center-block"), product_path(product), target: "_blank" %>
-        <% end %>
-    </div>
-
-        <br>
-        <%= link_to(product.title, product_path(product), target: "_blank") %>
-        <br>
-        <p><strong>￥ <%= link_to(product.price, product_path(product), target: "_blank") %> 元</strong></p>
-      </div>
-<% end %>
+ <%= will_paginate @products %>

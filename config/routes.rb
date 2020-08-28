@@ -1,65 +1,99 @@
 Rails.application.routes.draw do
-  namespace :admin do
-    get 'categories/index'
-  end
 
-  namespace :admin do
-    get 'categories/new'
-  end
+
+
+
+get 'product_images/controller'
+
+
 
   devise_for :users
   root 'products#index'
-#admin
-    namespace :admin do
-      root 'sessions#new'
-      resources :sessions
-      #categories 分類
-      resources :categories
-        resources :products do
-        #product_image (improve  web's_effect)
-          resources :product_images, only: [:index, :create, :destroy, :update]
+   #--=== 前台 ===--#
 
-
-        #member
-        member do
-            patch :move_up
-            patch :move_down
-        end
-      end
-
-#order排列
-        resources :orders do
+  # 商品
+      resources :products do
           member do
-            post :cancel
-            post :ship
-            post :shipped
-            post :return
-        end
+            post :add_to_cart
+            post :add_to_favorite
+            post :remove_to_favorite
+          end
       end
-    end
-#admin part end
 
 
 
-
-    resources :products do
-      collection do
-        get :search
-      end
-        member do
-          post :add_to_cart
-          post :add_to_favorite
-          post :remove_to_favorite
-        end
-    end
-# products
-      resources :carts do
-           collection do
-             delete :clean
-             post :checkout
+  #購物車
+        resources :carts do
+             collection do
+               delete :clean
+               post :checkout
+             end
            end
-         end
-# carts
+
+#訂單
+  resources :orders do
+     member do
+       post :pay_with_alipay
+       post :pay_with_wechat
+       post :apply_to_cancel
+     end
+  end
+
+#admin  後台
+        namespace :admin do
+#後台路由設定
+
+          root 'sessions#new'
+          resources :sessions
+
+          #訂單order排列
+            resources :orders do
+              member do
+                post :cancel
+                post :ship
+                post :shipped
+                post :return
+            end
+          end
+
+                  # 類型 #
+            resources :category_groups do
+              member do
+                post :publish
+                post :hide
+              end
+            end
+
+              # 分類 #
+              resources :categories do
+                member do
+                  post :publish
+                  post :hide
+                end
+              end
+
+
+
+
+                  resources :products do
+                  #product_image (improve  web's_effect)
+                    resources :product_images, only: [:index, :create, :destroy, :update]
+                  #end
+
+
+                  #member 移動功能
+                  member do
+                      patch :move_up
+                      patch :move_down
+                  end
+                end
+
+
+          end
+          #admin part end
+
+
+
 
 #account
   namespace :account do
@@ -68,13 +102,8 @@ Rails.application.routes.draw do
 
      resources :cart_items
 
-     resources :orders do
-        member do
-          post :pay_with_alipay
-          post :pay_with_wechat
-          post :apply_to_cancel
-        end
-     end
+
+
 
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :news
@@ -87,5 +116,5 @@ Rails.application.routes.draw do
      resources :favorites
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 #categories show
-  resources :categories, only: [:show]
+  resources :categories
 end

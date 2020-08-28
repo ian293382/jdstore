@@ -1,12 +1,40 @@
 class ProductsController < ApplicationController
 
   def index
-    @products = Product.onshelf.page(params[:page] || 1).per_page(params[:page] || 10)
-    .order("position ASC").includes(:main_product_image)
+    # 商品類型
+    @category_groups = CategoryGroup.published
+
+    # 判斷是否篩選分類
+  if params[:category].present?
+       @category_s = params[:category]
+       @category = Category.find_by(name: @category_s)
+
+       @products = Product.where(:category => @category.id).published.recent.paginate(:page => params[:page], :per_page => 10)
+                    .order("position ASC")
+
+
+                    # 判斷是否篩選類型
+    elsif params[:group].present?
+      @group_s = params[:group]
+      @group = CategoryGroup.find_by(name: @group_s)
+
+      @products = Product.joins(:category).where("categories.category_group_id" => @group.id).published.recent.paginate(:page => params[:page], :per_page => 12)
+ # 預設顯示所有公開商品
+    else
+          @products = Product.onshelf.paginate(:page => params[:page], :per_page => 12).order("position ASC")
+        end
   end
 
   def show
+
     @product = Product.find(params[:id])
+
+    @category_groups = CategoryGroup.published
+    set_page_title       @product.title
+    set_page_description @product.description
+    set_page_keywords    @product.title
+    set_page_image       @product_images.first.image.main.url
+
   end
 
   def add_to_cart

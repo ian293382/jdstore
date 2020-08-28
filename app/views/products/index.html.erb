@@ -1,22 +1,20 @@
 <div class="row">
-  <div class="col-lg-12">
-    <ol class="breadcrumb">
-      <li class="active">首頁</li>
-    </ol>
-    <%= render 'common/products' %>
-  </div>
-</div>
+   <% @products.each do |product| %>
+     <div class="col-sm-6 col-md-4">
+       
+       <div class="thumbnail-samll">
+         <%= link_to image_tag(product.main_product_image.image.url(:middle), alt: product.title), product_path(product) %>
+         <div class="caption">
+           <h4><%= link_to product.title, product_path(product), class: 'title' %></h4>
+           <a>
+          <h4><span class="msrp">原價: ¥<%= product.msrp %></span></h4>
+            </a>
+            <h3>  ￥ <strong> <%= product.price %></Strong> </h3>
 
+         </div>
+       </div>
+     </div>
+   <% end -%>
+ </div>
 
-
-
-
-  <!-- Start of  Zendesk Widget script -->
-
-  <head
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=cb25e32e-94df-4c36-8efd-441ea2372f0b"> </script>
-
-  </head>
-  <!-- End of  Zendesk Widget script -->
-
-</div>
+ <%= will_paginate @products %>

@@ -30,7 +30,7 @@
          <select name="product[category_id]">
            <option></option>
            <% @root_categories.each do |category| %>
-             <optgroup label="<%= category.title %>"></optgroup>
+             <optgroup label="<%= f.select :category_id, @categories %>"></optgroup>
 
 
             <% category.children.each do |sub_category| %>

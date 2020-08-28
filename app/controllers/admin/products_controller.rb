@@ -4,20 +4,21 @@ class Admin::ProductsController < Admin::BaseController
 
   def index
     # => 做order才能對商品排序調換 DSC or ASC (降/升) 前台也要排序
-    @products = Product.page(params[:page] || 1).per_page(params[:per_page] || 10).order("position ASC")
+    @products = Product.page(params[:page] || 1).per_page(params[:per_page] || 10)
+                .order("position ASC")
   end
 
   def new
    @product = Product.new
-   @root_categories = Category.roots
+    @categories = Category.all.map { |c| [c.name, c.id] }
  end
 
  def create
    @product = Product.new(params.require(:product).permit!)
-   @root_categories = Category.roots
+    @product.category_id = params[:category_id]
 
    if @product.save
-     flash[:notice] = "创建成功"
+     flash[:notice] = "創建成功"
      redirect_to admin_products_path
    else
      render action: :new
@@ -25,13 +26,13 @@ class Admin::ProductsController < Admin::BaseController
  end
 
  def edit
-   @root_categories = Category.roots
+   @categories = Category.all.map { |c| [c.name, c.id] }
    render action: :new
  end
 
  def update
    @product.attributes = params.require(:product).permit!
-   @root_categories = Category.roots
+    @product.category_id = params[:category_id]
    if @product.save
      flash[:notice] = "修改成功"
      redirect_to admin_products_path

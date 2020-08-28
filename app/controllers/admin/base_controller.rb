@@ -2,7 +2,7 @@ class Admin::BaseController < ApplicationController
    layout 'layouts/adminweb'
   before_action :authenticate_user!
   before_action :admin_required
-  before_action :fetch_home_data #重構 分類資料庫查詢量
+
 
 
   def admoin_required
@@ -12,8 +12,6 @@ class Admin::BaseController < ApplicationController
   end
 
 
-  def fetch_home_data
-      @categories = Category.grouped_data
-  end
+
 
 end

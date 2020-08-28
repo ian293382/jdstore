@@ -1,42 +1,41 @@
-<div>
-  <div class="pull-right">
-    <%= link_to "新建分類", new_admin_category_path, class: "btn btn-primary" %>
-  </div>
 
-  <h1>
-    <% if @category %>
-      分類:<%= @category.title %>(<%= @categories.total_entries %>)
-    <% else %>
-      分類:<%= @categories.total_entries %>)
-    <% end %>
-  </h1>
+<!--=== 頁面標題 ===-->
+<h2><%= t('category-index') %></h2>
+
+<!--=== 新增分類 ===-->
+<div class="pull-right">
+  <%= link_to(t('btn-category-new'), new_admin_category_path, :class => 'btn btn-sm btn-default')%>
 </div>
 
-  <div>
+<!--=== 分類列表 ===-->
+<table class="table">
+  <!--=== 分類列表標題 ===-->
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t('f-category-group') %></th>
+      <th><%= t('f-category-name') %></th>
+      <th><%= t('f-category-options') %></th>
+    </tr>
+  </thead>
 
-    <table class="table table-striped">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Weight</th>
-        <th>/</th>
-      </tr>
-
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.id %></td>
-        <td><%= category.title %></td>
-        <td><%= category.weight %></td>
-        <td align="right">
-          <%= link_to "Edit", edit_admin_category_path(category) %>
-          <%= link_to "delete", admin_category_path(category), method: :delete, 'data-confirm': "Are you sure?" %>
-          <% if category.root? %>
-            <%= link_to "查看子分類", admin_categories_path(id: category) %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
-  <%= will_paginate @categories %>
-</div>
+  <!--=== 分類列表內容 ===-->
+  <% @categories.each do |category| %>
+    <tr>
+      <td><%= render_category_status(category) %></td>
+      <td><%= category.category_group.name %></td>
+      <td><%= link_to(category.name, admin_category_path(category)) %></td>
+      <!--=== 操作選項 ===-->
+      <td>
+        <!-- 編輯 -->
+        <%= link_to(t('btn-edit'), edit_admin_category_path(category), :class => 'btn btn-sm btn-default') %>
+        <!-- 發佈 / 隱藏 -->
+        <% if category.is_hidden %>
+          <%= link_to(t('btn-publish'), publish_admin_category_path(category), :method => :post, :class => 'btn btn-sm btn-default') %>
+        <% else %>
+          <%= link_to(t('btn-hide'), hide_admin_category_path(category), :method => :post, :class => 'btn btn-sm btn-default') %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

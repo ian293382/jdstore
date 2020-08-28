@@ -12,7 +12,7 @@
 
     <div class="preview col-md-7 " style="">
       <% @product.product_images.each do |product_image| %>
-        <div class="col-md-5 col-sm-5 col-xs-3">
+        <div class="col-md-4 col-sm-6 col-xs-8">
           <a href="#" class="thumbnail detail">
             <%= image_tag(product_image.image.url, class: 'list-image thumbnail') %>
           </a>
@@ -31,12 +31,23 @@
       <p>購買: <input type="text" name="quantity" value="1" />件</p>
 
       <div class="pull-right">
+        <!--收藏 -->
+        <% if current_user && current_user.is_member_of?(@product) %>
+         <%= link_to remove_to_favorite_product_path(@product), method: :post, class: "btn  btn-primary " do %>
+           <span class="fa fa-heart"></span> 已收藏
+         <% end %>
+       <% else %>
+         <%= link_to add_to_favorite_product_path(@product), method: :post, class: "btn  btn-default " do %>
+           <span class="fa fa-heart-o"></span> 收藏
+         <% end %>
+        <% end %>
          <% if @product.quantity.present? && @product.quantity > 0 %>
             <%= link_to("加入購物車", add_to_cart_product_path(@product), method: :post,
                         class: "btn btn-lg btn-danger") %>
          <% else %>
            已銷售一空，無法購買
          <% end %>
+
       </div>
 
     </div>
@@ -63,7 +74,7 @@
 
 
              <div class="col-md-10">
-                 <%= image_tag(@product.product_images[1].image.url ,class: 'main-image thumbnail')%>
+                 <%= image_tag(@product.product_images[0].image.url ,class: 'main-image thumbnail')%>
              </div>
 
          </div>

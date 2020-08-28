@@ -18,11 +18,7 @@ class ApplicationController < ActionController::Base
 
 
 
-  before_action :fetch_home_data #查詢 增加”分類” 數據庫數量
 
-   def fetch_home_data
-     @categories = Category.grouped_data
-   end
 
    private
 

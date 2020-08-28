@@ -1,12 +1,13 @@
-class Category < ApplicationRecord
+class CategoryGroup < ApplicationRecord
 
   # 新增/修改欄位限制與提示 #
- validates :name, presence: { message: "請輸入分類名稱" }
- validates :category_group_id, presence: { message: "請選擇分類類型" }
+ validates :name, presence: true
 
  # 關聯 #
- belongs_to :category_group
- has_many :products
+ has_many :categories
+
+ # 檔案上傳 #
+ mount_uploader :image, GroupUploader
 
  # 發佈 / 隱藏 #
  def publish!
@@ -19,7 +20,7 @@ class Category < ApplicationRecord
    self.save
  end
 
- # 上傳分類 Logo 圖 #
+ # 上傳類型 Logo 圖 #
  mount_uploader :logo, ImageUploader
 
  # Scope #
