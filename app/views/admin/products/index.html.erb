@@ -2,7 +2,7 @@
 
   <div class="pull-right" >
     <%= link_to "新建商品", new_admin_product_path, class: "btn btn-primary" %>
-</div>
+  </div>
 
   <h2>
     Product List(<%= @products.total_entries %>)
@@ -12,14 +12,12 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th width="220">Product Pic</th>
       <th>Name</th>
-      <th>UUid</th>
-      <th>Origin_price</th>
+      <th>Category</th>
+      <th>CategoryGroup</th>
       <th>Price</th>
       <th>Quantity</th>
-      <th>status</th>
-      <th width="100"> Options</th>
+      <th width="200", colspan="4"> Options</th>
     </tr>
   </thead>
   <tbody>
@@ -28,54 +26,57 @@
         <td>
           <%= product.id %>
         </td>
-        <td>
-          <%= link_to product_path(product) do %>
-            <% if product.product_images.present? %>
-            <%= image_tag(product.main_product_image.image.url(:middle), class: 'main-imagel') %>
 
-            <% else %>
-              <%= image_tag("http://placehold.it/200x200&text=No Pic", class: "thumbnail") %>
-            <% end %>
-          <% end %>
+        <td>
+          <%= product.name %>
         </td>
         <td>
-          <%= product.title %>
+          <%= product.category.name %>
         </td>
-        <td>
-          <%= product.uuid %>
-        </td>
-        <td>
-          <%= product.msrp %>
-        </td>
+          <td>
+            <%= product.category.category_group.name %>
+          </td>
         <td>
           <%= product.price %>
         </td>
         <td>
           <%= product.quantity%>
         </td>
-        <td>
-          <%= product.status %>
-        </td>
+
         <td align="center">
-          <p>
-          <%= link_to("Edit", edit_admin_product_path(product), :class => "btn btn-primary ") %>
-          </p>
-          <p>
+
+
+            <div class="action-box">
+            <%= link_to(edit_admin_product_path(product), class: "btn btn-md btn-default") do %>
+              <span class="fa fa-pencil"></span>
+            <% end %>
+
+            <!-- 發佈 / 隱藏 -->
+            <!-- <%= render_product_publish_or_hide(product) %> -->
+            <% if product.is_hidden %>
+              <%= link_to(publish_admin_product_path(product), :method => :post, class: "btn btn-md btn-default show-btn") do %>
+                <span class="fa fa-eye"></span>
+              <% end %>
+            <% else %>
+              <%= link_to(hide_admin_product_path(product), :method => :post, data: { confirm: "確定隱藏該商品？" }, class: "btn btn-md btn-default") do %>
+                <span class="fa fa-eye-slash"></span>
+              <% end %>
+            <% end %>
+            </div>
+          </td>
+          <td align="center">
           <%= link_to("Delete", admin_product_path(product), method: :delete, :class => "btn btn-danger") %>
-          </p>
-          <p>
-          <%= link_to "Photo options", admin_product_product_images_path(product_id: product) , :class => "btn btn-info" %>
-          </p>
-          <p>
+          </td>
+
+          <td>
           <%= link_to("向上",move_up_admin_product_path(product), method: :patch)%> |
           <%= link_to("向下",move_down_admin_product_path(product), method: :patch)%>
-          </p>
+          </td>
+          <!--=== 操作選項 ===-->
 
-
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= will_paginate @products %>
-</div>
+              </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate @products %>
+    </div>

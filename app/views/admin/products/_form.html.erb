@@ -15,28 +15,29 @@
     <% end %>
 
     <!-- 上傳圖片 -->
-    <%= f.label ('product-images') %><br>
+    <%= f.label t('f-product-images') %><br>
     <%= f.file_field :product_image, :multiple => true, name: 'product_images[image][]' %>
 
     <!-- 商品名稱 -->
-    <%= f.input :name, :label => ('product-name'), input_html: { class: 'width-50' } %>
+    <%= f.input :name, :label => t('f-product-name'), input_html: { class: 'width-50' } %>
 
     <!-- 選擇分類 -->
-    <%= f.input :category_id, :label => ('product-category'), :collection => @categories, :checked => @product.category, input_html: { class: 'width-50' } %>
+    <%= f.input :category_id, :label => t('f-product-category'), :collection => @categories, :checked => @product.category, input_html: { class: 'width-50' } %>
 
 
 
     <!-- 商品敘述 -->
-    <%= f.input :description, :label => ('product-description'), input_html: { class: 'height-200' } %>
+    <%= f.input :description, :label => t('f-product-description'), input_html: { class: 'height-200' } %>
 
 
     <!-- 商品售價 -->
-    <%= f.input :price, :label => ('f-product-price'), input_html: { class: 'width-25' } %>
+    <%= f.input :price, :label => t('f-product-price'), input_html: { class: 'width-25' } %>
 
     <!-- 商品庫存數量 -->
-    <%= f.input :quantity, :label => ('f-product-quantity'), input_html: { class: 'width-25' } %>
+    <%= f.input :quantity, :label => t('f-product-quantity'), input_html: { class: 'width-25' } %>
 
-
+    <!-- 商品隱藏與否 -->
+    <span class="hidden-box"><%= f.input :is_chosen, :label => t('f-product-chosen') %></span>
 
     <!-- 商品隱藏與否 -->
     <span class="hidden-box"><%= f.input :is_hidden, :label => t('f-hide') %></span>

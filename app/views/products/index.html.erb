@@ -1,20 +1,42 @@
-<div class="row">
-   <% @products.each do |product| %>
-     <div class="col-sm-6 col-md-4">
-       
-       <div class="thumbnail-samll">
-         <%= link_to image_tag(product.main_product_image.image.url(:middle), alt: product.title), product_path(product) %>
-         <div class="caption">
-           <h4><%= link_to product.title, product_path(product), class: 'title' %></h4>
-           <a>
-          <h4><span class="msrp">原價: ¥<%= product.msrp %></span></h4>
-            </a>
-            <h3>  ￥ <strong> <%= product.price %></Strong> </h3>
+<div class="product-box">
+  <div class="container">
 
-         </div>
-       </div>
-     </div>
-   <% end -%>
- </div>
 
- <%= will_paginate @products %>
+  <!--=== 商品類型 & 品牌選單 ===-->
+
+
+  <% if @products.length > 0 %>
+    <!--=== 商品列表 ===-->
+    <div class='row'>
+      <% @products.each_with_index do |product, index| %>
+        <div class='col-xs-12 col-sm-4 col-md-3 product-content'>
+          <%= link_to product_path(product) do %>
+            <!-- 商品圖片 -->
+            <% if product.product_images.present? %>
+              <!-- 顯示第一張圖片 -->
+              <% if product.is_chosen %>
+                <div class="chosen-box"><%= t('product-chosen') %></div>
+              <% end %>
+              <%= image_tag(product.product_images[0].image.other.url, class: 'thumbnail')%>
+            <% else %>
+              <%= image_tag('http://placehold.it/200x200&text=No Pic', class: 'thumbnail') %>
+            <% end %>
+          <% end %>
+          <div class="product-info">
+            <p><%= link_to(product.name , product_path(product)) %></p>
+            <p><%= product.price %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="product-content">
+      <h2><%= (t('no-product-data')) %></h2>
+    </div>
+  <% end %>
+
+    <div class="page-box">
+      <%= will_paginate @products %>
+    </div>
+  </div>
+</div>

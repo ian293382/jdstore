@@ -1,54 +1,107 @@
 class Admin::ProductsController < Admin::BaseController
 
-  before_action :find_product, only: [:edit, :update, :destroy]
+ # 使用者必須登入
+  before_action :authenticate_user!
+  # 使用者必須是 admin 身份
+  before_action :admin_required
+  # 後台頁面排版
+  layout "admin"
 
   def index
-    # => 做order才能對商品排序調換 DSC or ASC (降/升) 前台也要排序
-    @products = Product.page(params[:page] || 1).per_page(params[:per_page] || 10)
-                .order("position ASC")
+    @products = Product.all.order("position ASC").paginate(:page => params[:page], :per_page => 10)
+  end
+
+  def show
+    @product = Product.find(params[:id])
+
+    # 商品圖片
+    @product_images = @product.product_images.all
   end
 
   def new
-   @product = Product.new
+    @product = Product.new
+
+    # 商品圖片
+    @product_image = @product.product_images.build
+
+    # 商品所屬的品牌/分類/顏色
+
+    @categories = Category.all.order("category_group_id, name")
+
+
+  end
+
+  def create
+    @product = Product.new(product_params)
+
+    if @product.save
+      if params[:product_images] != nil
+        params[:product_images]['image'].each do |i|
+          @product_image = @product.product_images.create(:image => i)
+        end
+      end
+      redirect_to admin_products_path
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @product = Product.find(params[:id])
+
+    # 商品所屬的/分類
+
+    @categories = Category.all.order("category_group_id, name")
+
+  end
+
+  def update
+    @product = Product.find(params[:id])
+
+    # 商品圖片
+    if params[:product_images] != nil
+      #刪除舊圖
+      @product.product_images.destroy_all
+
+      params[:product_images]['image'].each do |i|
+        @product_image = @product.product_images.create(:image => i)
+      end
+      @product.update(product_params)
+
+    elsif @product.update(product_params)
+      redirect_to admin_products_path and return
+    else
+      render :edit
+
+    end
+
+
+    # 產品所屬的分類
     @categories = Category.all.map { |c| [c.name, c.id] }
- end
-
- def create
-   @product = Product.new(params.require(:product).permit!)
     @product.category_id = params[:category_id]
 
-   if @product.save
-     flash[:notice] = "創建成功"
-     redirect_to admin_products_path
-   else
-     render action: :new
-   end
- end
+    if @product.update(product_params)
+      redirect_to admin_products_path
+    else
+      render :edit
+    end
+  end
 
- def edit
-   @categories = Category.all.map { |c| [c.name, c.id] }
-   render action: :new
- end
+  # 發佈
+  def publish
+    @product = Product.find(params[:id])
+    @product.publish!
+    redirect_to :back
+  end
 
- def update
-   @product.attributes = params.require(:product).permit!
-    @product.category_id = params[:category_id]
-   if @product.save
-     flash[:notice] = "修改成功"
-     redirect_to admin_products_path
-   else
-     render action: :new
-   end
- end
+  # 隱藏
+  def hide
+    @product = Product.find(params[:id])
+    @product.hide!
+    redirect_to :back
+  end
 
- def destroy
-   @product = Product.find(params[:id])
-   @product.destroy
-   flash[:alert] = "你已經成功刪除"
-   redirect_to admin_products_path
- end
-
-      def move_up
+  def move_up
         @product = Product.find(params[:id])
 
         @product.move_higher
@@ -64,15 +117,24 @@ class Admin::ProductsController < Admin::BaseController
       end
 
 
+      # 精選商品
+        def chosen
+          @product = Product.find(params[:id])
+          if @product.is_chosen == true
+            @product.no_chosen!
+          else
+            @product.chosen!
+          end
+
+          redirect_to :back
+        end
+
 
 
   private
 
-    def find_product
-     @product = Product.find(params[:id])
-    end
+  def product_params
+    params.require(:product).permit(:name, :description, :price, :quantity, :category_id,  :is_hidden, :is_chosen)
+  end
 
-    def product_params
-      params.require(:product).permit(:title, :description, :status, :quantity, :price, :category_id,  :msrp, :image, :uuid )
-    end
 end

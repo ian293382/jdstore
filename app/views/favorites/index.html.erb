@@ -8,14 +8,19 @@
                 <div class="col-md-12 cart-item-box">
                 <!-- 商品圖片 -->
                 <%= link_to product_path(product) do %>
-                  <% if product.image.present? %>
-                    <%= image_tag(product.image.thumb.url, class: "thumbnail") %>
-                    <% else %>
-                      <%= image_tag('http://placehold.it/100x100&text=No Pic') %>
+                  <!-- 商品圖片 -->
+                  <% if product.product_images.present? %>
+                    <!-- 顯示第一張圖片 -->
+                    <% if product.is_chosen %>
+                      <div class="chosen-box"><%= t('product-chosen') %></div>
                     <% end %>
+                    <%= image_tag(product.product_images[0].image.other.url, class: 'thumbnail')%>
+                  <% else %>
+                    <%= image_tag('http://placehold.it/200x200&text=No Pic', class: 'thumbnail') %>
                   <% end %>
-                  <div class="name"><%= link_to(product.title, product_path(product)) %></div>
-        
+                <% end %>
+                  <div class="name"><%= link_to(product.name, product_path(product), class: "btn btn-lg") %></div>
+
                 <!-- 移動至購物車 -->
                 <!--  <div>
                     link_to add_to_cart_account_product_path(product), method: :post do %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200828074953) do
+ActiveRecord::Schema.define(version: 20200908063750) do
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "cart_id"
@@ -89,8 +89,10 @@ ActiveRecord::Schema.define(version: 20200828074953) do
     t.string   "image_content_type"
     t.bigint   "image_file_size"
     t.datetime "image_updated_at"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "image"
+    t.boolean  "main_image",         default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.index ["product_id", "weight"], name: "index_product_images_on_product_id_and_weight"
     t.index ["product_id"], name: "index_product_images_on_product_id"
   end
@@ -109,18 +111,19 @@ ActiveRecord::Schema.define(version: 20200828074953) do
     t.text     "description"
     t.integer  "quantity"
     t.integer  "price"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.string   "image"
     t.integer  "position"
     t.integer  "category_id"
-    t.string   "status",                               default: "off"
+    t.string   "status",      default: "off"
+    t.boolean  "is_hidden",   default: true
     t.string   "uuid"
-    t.decimal  "msrp",        precision: 10, scale: 2
+    t.boolean  "is_chosen",   default: false
+    t.string   "name"
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["status", "category_id"], name: "index_products_on_status_and_category_id"
     t.index ["title"], name: "index_products_on_title"
-    t.index ["uuid"], name: "index_products_on_uuid", unique: true
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,12 +1,16 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:create]
 
+
+  #產生訂單
   def create
     @order = Order.new(order_params)
     @order.user = current_user
     @order.total = current_cart.total_price
 
     if @order.save #建立購買明細
+      # 將購買車內容存入訂單
+      
       current_cart.cart_items.each do |cart_item|
         product_list = ProductList.new
         product_list.order = @order
@@ -56,7 +60,7 @@ class OrdersController < ApplicationController
           flash[:notice] = "已提交申請"
           redirect_to :back
         end
-      
+
   private
 
     def order_params

@@ -1,16 +1,18 @@
 class Order < ApplicationRecord
-  belongs_to :user
+
 
   validates :billing_name, presence: true
   validates :billing_address, presence: true
   validates :shipping_name, presence: true
   validates :shipping_address, presence: true
 
-
+#關係
+  belongs_to :user
   has_many :product_lists
 
 before_create :generate_token
 
+# Ruby 內建亂序生成器
     def generate_token
       self.token = SecureRandom.uuid
     end
@@ -55,7 +57,7 @@ before_create :generate_token
             event :return_good do
               transitions from: :shipped,      to: :good_returned
             end
-
+            #狀態取消
             event :cancel_order do
               transitions from: [:order_placed, :paid], to: :order_cancelled
             end

@@ -6,51 +6,64 @@ class Product < ApplicationRecord
 
 
 #檔案配置
-validates :category_id, presence: { message: "category cannot be empty"}
-validates :title, presence: { message: "title cannot be empty"}
-validates :status, inclusion: { in: %w[on off], message: "status should be (on or off)" }
-validates :quantity, numericality: { only_integer: true, message: "quantity should be integer"},
-  if: proc { |product| !product.quantity.blank? }
-
-validates :msrp, numericality: { message: "MSRP Must be numericality" },
-  if: proc { |product| !product.msrp.blank? }
+# 新增/修改欄位限制與提示 #
+validates :name, presence: { message: "請輸入商品名稱" }
+validates :price, presence: { message: "請輸入商品售價" }
+validates :price, numericality: { greater_than: 0, message: "請輸入商品售價，必須大於零" }
+validates :quantity, presence: { message: "請入庫存數量" }, numericality: { greater_than_or_equal: 0 }
+validates :category_id, presence: { message: "請選擇商品分類" }
 
 
+# 關聯 #分類
+belongs_to :category
 
-
-
-
-
-
-   #加入分類
-   belongs_to :category
+#image
+has_many :product_images, dependent: :destroy
+ accepts_nested_attributes_for :product_images
 #收藏
   has_many :favorites
   has_many :member, through: :favorites, source: :user
-#Product_image
-  has_many :product_images, -> { order(weight: 'desc') },
-  dependent: :destroy
-  has_one :main_product_image, -> { order(weight: 'desc') },
-  class_name: :ProductImage
 
 
-  before_create :set_default_attrs #產品生產之前建造單一序號
-
-
-#status
-  module Status
-   On = 'on'
-   Off = 'off'
+  # 精選商品(放圖) #
+  def chosen!
+    self.is_chosen = true
+    self.save
   end
 
-#替代語言 scope
-  scope :onshelf, -> { where(status: Status::On) }
+  def no_chosen!
+    self.is_chosen = false
+    self.save
+  end
 
-  private
 
-   def set_default_attrs
-     self.uuid = RandomCode.generate_product_uuid
-   end
 
+        # 商品資訊網址優化 #
+        def to_param
+          "#{self.id}-#{self.name.gsub(/\s+/, "")}"
+        end
+
+        # 發佈 / 隱藏 #
+        def publish!
+          self.is_hidden = false
+          self.save
+        end
+
+          def hide!
+            self.is_hidden = true
+            self.save
+          end
+
+
+
+          # 檢查 is_hidden 的 boolean 值 #
+          def hidden?
+            is_hidden
+          end
+
+# Scope #
+scope :published, -> { where(is_hidden: false) }
+scope :recent, -> { order('created_at DESC') }
+scope :random3, -> { limit(3).order('RANDOM()') }
 
 end

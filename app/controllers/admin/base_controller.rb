@@ -5,7 +5,7 @@ class Admin::BaseController < ApplicationController
 
 
 
-  def admoin_required
+  def admin_required
     if !current_user.admin?
       redirect_to "/", alert: "You are not admin"
     end

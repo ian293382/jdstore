@@ -64,32 +64,31 @@ get 'product_images/controller'
               end
             end
 
-              # 分類 #
-              resources :categories do
-                member do
-                  post :publish
-                  post :hide
-                end
-              end
+          # 分類 #
+          resources :categories do
+            member do
+              post :publish
+              post :hide
+            end
+          end
 
 
 
 
                   resources :products do
-                  #product_image (improve  web's_effect)
-                    resources :product_images, only: [:index, :create, :destroy, :update]
-                  #end
-
 
                   #member 移動功能
                   member do
+                      post :publish
+                       post :hide
+                       post :chosen
                       patch :move_up
                       patch :move_down
                   end
                 end
 
 
-          end
+              end
           #admin part end
 
 
