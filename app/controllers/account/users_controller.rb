@@ -10,8 +10,9 @@ class Account::UsersController < ApplicationController
     @user = current_user
     @user.update(user_params)
     if @user.save
-      redirect_to edit_account_user_path(current_user)
+
       flash[:notice] = '用戶資料更新成功'
+      redirect_to edit_account_user_path(current_user)
     else
       render :edit
     end
@@ -20,6 +21,6 @@ class Account::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :address)
+    params.require(:user).permit(:name, :email, :address)
   end
 end
