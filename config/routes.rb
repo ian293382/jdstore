@@ -96,7 +96,9 @@ get 'product_images/controller'
 
 #account
   namespace :account do
-    resources :orders
+    resources :users #加入後新增“用戶中心”有關路徑
+
+    resources :orders #訂單
   end
 
      resources :cart_items
