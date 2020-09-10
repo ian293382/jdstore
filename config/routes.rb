@@ -9,7 +9,7 @@ get 'product_images/controller'
 
 
   devise_for :users, :controllers => { :registrations => "users/registrations" }
-  root 'products#index'
+  root 'welcome#index'
    #--=== 前台 ===--#
 
   # 商品
